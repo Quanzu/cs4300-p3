@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="dustin_nguyen_review">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <property name="context-root" value="dustin_nguyen_review"/>
+        <property name="java-output-path" value="/dustin_nguyen_review/build/classes"/>
+    </wb-module>
+</project-modules>
