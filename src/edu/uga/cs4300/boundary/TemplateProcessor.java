@@ -1,7 +1,6 @@
 package edu.uga.cs4300.boundary;
 
 import java.io.IOException;
-import java.io.Writer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +43,7 @@ public class TemplateProcessor {
 	 * @param templateDir the directory containing freemarker templates
 	 */
 	public TemplateProcessor(Configuration cfg, ServletContext servletContext, String templateDir) {
-		super();
+		this(cfg, servletContext);
 		this.templateDir = templateDir;
 		cfg.setServletContextForTemplateLoading(servletContext, templateDir);
 	} // TemplateProcessor
@@ -64,6 +63,7 @@ public class TemplateProcessor {
 	 */
 	public void processTemplate(HttpServletResponse response) {
 		try {
+			response.setContentType("text/html");
 			template.process(root, response.getWriter());
 			db = new DefaultObjectWrapperBuilder(Configuration.getVersion());
 			root = new SimpleHash(db.build());

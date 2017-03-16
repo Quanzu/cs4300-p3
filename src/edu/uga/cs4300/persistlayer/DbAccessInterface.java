@@ -6,6 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class provides ways to connect and query to a database.
+ * @author dustin
+ */
+
 public class DbAccessInterface  {
 	
 	/**
@@ -42,8 +47,7 @@ public class DbAccessInterface  {
 	 * @param query is typically a select statement
 	 * @return the result set
 	 */
-	public static ResultSet retrieve (String query) {
-		Connection con = connect();
+	public static ResultSet retrieve (String query, Connection con) {
 		ResultSet result = null;
 		try {
 			PreparedStatement statement = con.prepareStatement(query);
@@ -51,7 +55,6 @@ public class DbAccessInterface  {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} // try-catch
-		disconnect(con);
 		return result;
 	} // retrieve
 	
@@ -60,8 +63,7 @@ public class DbAccessInterface  {
 	 * @param query should typically be an insert statement.
 	 * @return the amount of rows affected by this query.
 	 */
-	public static int create (String query) {
-		Connection con = connect();
+	public static int create (String query, Connection con) {
 		int rows = 0;
 		try {
 			PreparedStatement statement = con.prepareStatement(query);
@@ -69,7 +71,6 @@ public class DbAccessInterface  {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} // try-catch
-		disconnect(con);
 		return rows;
 	} // create
 	
@@ -78,8 +79,7 @@ public class DbAccessInterface  {
 	 * @param query should be a replace or update statement.
 	 * @return the amount of rows affected by this query.
 	 */
-	public static int update (String query) {
-		Connection con = connect();
+	public static int update (String query, Connection con) {
 		int rows = 0;
 		try {
 			PreparedStatement statement = con.prepareStatement(query);
@@ -87,7 +87,6 @@ public class DbAccessInterface  {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} // try-catch
-		disconnect(con);
 		return rows;
 	} // update
 	
@@ -96,8 +95,7 @@ public class DbAccessInterface  {
 	 * @param query should be a delete statement.
 	 * @return the amount of rows affected by this query.
 	 */
-	public static int delete (String query) {
-		Connection con = connect();
+	public static int delete (String query, Connection con) {
 		int rows = 0;
 		try {
 			PreparedStatement statement = con.prepareStatement(query);
@@ -105,7 +103,6 @@ public class DbAccessInterface  {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} // try-catch
-		disconnect(con);
 		return rows;
 	} // delete
 	
