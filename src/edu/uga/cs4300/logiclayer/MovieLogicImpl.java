@@ -3,6 +3,8 @@ package edu.uga.cs4300.logiclayer;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import edu.uga.cs4300.boundary.ReviewServlet;
 import edu.uga.cs4300.objectlayer.Movie;
 import edu.uga.cs4300.persistlayer.MoviePersistImpl;
@@ -10,18 +12,13 @@ import edu.uga.cs4300.persistlayer.MoviePersistImpl;
 
 public class MovieLogicImpl {
 
-	private ReviewServlet servlet = null;
 	private MoviePersistImpl moviePersistence = new MoviePersistImpl();
-	
-	public MovieLogicImpl(ReviewServlet servlet) {
-		this.servlet = servlet;
-	} // MovieLogicImpl
-	
-	public void insertMovie() {
-		String title = servlet.getCurrentRequest().getParameter("title");
-		int year = Integer.parseInt(servlet.getCurrentRequest().getParameter("year"));
-		float rank = Float.parseFloat(servlet.getCurrentRequest().getParameter("rank"));
-		String genre = servlet.getCurrentRequest().getParameter("genre");
+		
+	public void insertMovie(HttpServletRequest request) {
+		String title = request.getParameter("title");
+		int year = Integer.parseInt(request.getParameter("year"));
+		float rank = Float.parseFloat(request.getParameter("rank"));
+		String genre = request.getParameter("genre");
 		moviePersistence.insertMovie(title, year, rank, genre);
 	} // insertMovie
 	
@@ -29,9 +26,12 @@ public class MovieLogicImpl {
 		return moviePersistence.getAllMovies();
 	} // restoreAllMovies
 	
-	public ArrayList<Movie> getMoviesFromGenre() {
-		String genre = servlet.getCurrentRequest().getParameter("genre");
+	public ArrayList<Movie> getMoviesFromGenre(String genre) {
 		return moviePersistence.getMoviesFromGenre(genre);
 	} // getMoviesFromGenre
 
+	public ArrayList<String> getGenreList() {
+		return moviePersistence.getGenreList();
+	} // getGenresFromMovies
+	
 } // MovieLogicImpl
