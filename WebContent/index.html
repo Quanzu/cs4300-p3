@@ -1,20 +1,45 @@
 <!DOCTYPE html>
     <html>
-
+        
         <head>
-            <title>Review</title>
+            <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+            <link href="/WEB-INF/css/style.css" type="text/css" rel=stylesheet />
+            <title>Review Hub</title>
         </head>
-
-        <header>
-            <h1>Welcome to the Review Hub!</h1>
-        </header>
         
         <body>
-            <p>Select your action:</p>
-            <form action="ReviewServlet" method=post>
-                <input type=submit name=viewAll value="View All"/>
-                <input type=submit name=viewGenre value="View All In Genre"/>
-                <input type=submit name=newMovie value="Submit A New Movie"/>
-            </form>
+            <div id=wrapper>
+                <div id=header>
+                    <form action="ReviewServlet" method=post>
+                        <input type=submit name=viewAll value="View All"/><!--
+                        --><input type=submit name=viewGenre value="View All In Genre"/><!--  
+                        --><input type=submit name=newMovie value="Submit A New Movie"/>
+                        <input type=text name=searchForMovie placeholder="Movie title" />
+                        <input type=submit name=searchForMovie value = "Search" />
+                    </form>
+                    <h1>The Review Hub</h1>
+                    <hr>
+                </div>
+            
+                <div id="content">
+                    
+                    <p class=center>Feeling a movie night? <br/><br/>
+                        Find the movie for your tastes.</p>
+                        <div id=images>
+                            <img width=200px height= 300px src="./WEB-INF/resources/memento.jpg" />
+                            <img width=300px height= 300px src="./WEB-INF/resources/fightclub.jpg" />
+                            <img width=200px height= 300px src="./WEB-INF/resources/rocky.jpg" />
+                        </div>
+                        <p class = center>
+                        Read a review. <br/><br/>
+                        Write a review.</p>
+                
+                    <hr>
+                    <div id = copyright>Copyright &copy; ReviewHubCo.</div>
+                </div>
+                    
+            
+            </div>
         </body>
+        
     </html>

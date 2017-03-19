@@ -13,7 +13,7 @@
 			<form action="ReviewServlet" method="post">
 				<table>
 					<#list genres as genres>
-						<tr><td>${genres}</td><td><input type=radio name=${genres} value=${genres} /></td></tr>	
+						<tr><td>${genres}</td><td><input type=radio name="${genres}" value="${genres}" /></td></tr>	
 					</#list>
 				</table>
 				<input type=submit name=searchGenre value="Search" />

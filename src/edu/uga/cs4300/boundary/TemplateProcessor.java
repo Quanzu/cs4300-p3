@@ -15,9 +15,7 @@ import freemarker.template.TemplateExceptionHandler;
 /**
  * This class configures the application and provides functions for template processing, where Freemarker 
  * templates are utilized to generate dynamic content. Data is drawn from the "root" hash map.
- * 
  * @author Dustin Nguyen
- *
  */
 public class TemplateProcessor {
 	private String templateDir = null;

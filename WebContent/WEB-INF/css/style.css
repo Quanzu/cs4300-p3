@@ -1,0 +1,68 @@
+#wrapper {
+    background-image: url(../resources/background.jpg);
+    z-index: -1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment:fixed;
+    font: 10pt 'Oswald', sans-serif;
+    height: 1080px;
+    min-width: 1000px;
+}
+
+#header {
+    opacity: .9;
+    width: 50%;
+    margin: auto;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+#content {
+    background-color: lightslategray;
+    width: 50%;
+    margin: auto;
+    border-radius: 10px;
+    opacity: .9;
+}
+
+#content p {
+    padding-left: 20px;
+    padding-right: 20px;
+    opacity: 1;
+    font-size: 50px;
+    
+}
+
+#copyright {
+    text-align: right;
+    padding-right: 20px;
+}
+
+#images {
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+
+   
+}
+
+.center {
+    text-align: center;
+}
+
+#content hr {
+    width: 75%
+}
+
+form {
+    float: right;
+    overflow: hidden;
+    padding-top: 25px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+h1 {
+    font-size: 40px;
+}

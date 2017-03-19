@@ -55,14 +55,7 @@ public class ReviewServlet extends HttpServlet {
       			if (header.toString().equals("")) header.append(genre);
       			else header.append(", " + genre);
       			ArrayList<Movie> movies = movieLogic.getMoviesFromGenre(request.getParameter(genre));
-      			for (Movie m : movies) {
-      				System.out.println(m.getName());
-      				System.out.println(m.getId());
-      				System.out.println(m.getGenre());
-      				System.out.println(m.getRank());
-      				System.out.println(m.getYear());
-      				movieSet.add(m);
-      			}
+      			for (Movie m : movies) movieSet.add(m);
       		} // if
       	} // for
       	ArrayList<Movie> movies = new ArrayList<Movie>();
@@ -81,9 +74,17 @@ public class ReviewServlet extends HttpServlet {
     	templateProcessor.processTemplate(response);
     } // runViewGenres
     
-    public void runNewMovie() {
-    	
+    public void runNewMovie(HttpServletResponse response) {
+    	templateProcessor.setTemplate("new_movie.ftl");
+    	templateProcessor.processTemplate(response);
     } // runNewMovie
+    
+    public void runAddNewMovie(HttpServletRequest request, HttpServletResponse response) {
+    	MovieLogicImpl movieLogic = new MovieLogicImpl();
+    	movieLogic.insertMovie(request);
+    	templateProcessor.addToRoot("success", "Movie has been successfully added!");
+    	runNewMovie(response);
+    } // addNewMovie
     
     /**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -91,7 +92,11 @@ public class ReviewServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getParameter("viewAll") != null) runViewAll(response);
 		else if (request.getParameter("viewGenre") != null) runViewGenres(response);
-		else if (request.getParameter("newMovie") != null) runNewMovie();
+		else if (request.getParameter("newMovie") != null) {
+			templateProcessor.addToRoot("success", "");
+			runNewMovie(response);
+		} // else if
+		else if (request.getParameter("addNewMovie") != null) runAddNewMovie(request, response);
 		else if (request.getParameter("searchGenre") != null) runViewMoviesFromGenres(request, response);
 	} // doGet
 

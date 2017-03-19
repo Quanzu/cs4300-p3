@@ -8,10 +8,10 @@ import java.sql.SQLException;
 
 /**
  * This class provides ways to connect and query to a database.
- * @author dustin
+ * @author Dustin Nguyen
  */
 
-public class DbAccessInterface  {
+public class DbAccessImpl  {
 	
 	/**
 	 * Starts a connection to the database.
