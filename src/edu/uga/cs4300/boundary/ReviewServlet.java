@@ -1,6 +1,7 @@
 package edu.uga.cs4300.boundary;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -50,6 +51,7 @@ public class ReviewServlet extends HttpServlet {
       	ArrayList<String> genres = movieLogic.getGenreList();
       	HashSet<Movie> movieSet = new HashSet<Movie>();
       	StringBuilder header = new StringBuilder("");
+      	// Search through set of genres, see if they were selected. Then add movies of genre to root.
       	for (String genre : genres) {
       		if (request.getParameter(genre) != null) {
       			if (header.toString().equals("")) header.append(genre);
@@ -60,10 +62,15 @@ public class ReviewServlet extends HttpServlet {
       	} // for
       	ArrayList<Movie> movies = new ArrayList<Movie>();
       	for (Movie m : movieSet) movies.add(m);
-    	templateProcessor.addToRoot("movies", movies);
-    	templateProcessor.addToRoot("category", "From Genres \"" + header.toString() + "\"");
-    	templateProcessor.setTemplate("view.ftl");
-    	templateProcessor.processTemplate(response);
+      	if (movies.size() == 0) { // If no genres selected, view all movies.
+      		runViewAll(response);
+      		return;
+      	} else {
+	    	templateProcessor.addToRoot("movies", movies);
+	    	templateProcessor.addToRoot("category", "From Genres \"" + header.toString() + "\"");
+	    	templateProcessor.setTemplate("view.ftl");
+	    	templateProcessor.processTemplate(response);
+      	} // if-else
     } // runViewGenre
     
     public void runViewGenres(HttpServletResponse response) {
@@ -81,10 +88,23 @@ public class ReviewServlet extends HttpServlet {
     
     public void runAddNewMovie(HttpServletRequest request, HttpServletResponse response) {
     	MovieLogicImpl movieLogic = new MovieLogicImpl();
-    	movieLogic.insertMovie(request);
-    	templateProcessor.addToRoot("success", "Movie has been successfully added!");
+    	String success = movieLogic.insertMovie(request) ? "Movie was successfully added!" : "Sorry, movie was not added due to bad form submission. Please try again.";
+    	templateProcessor.addToRoot("success", success);
     	runNewMovie(response);
     } // addNewMovie
+    
+    private void checkForMovieInquiry(HttpServletRequest request, HttpServletResponse response) {    	
+    	MovieLogicImpl movieLogic = new MovieLogicImpl();
+    	ArrayList<Movie> movies = movieLogic.getAllMovies();
+    	for (Movie m : movies) {
+    		String id = NumberFormat.getIntegerInstance().format(m.getId());
+    		if (request.getParameter(id) != null) {
+    			templateProcessor.addToRoot("movie", m);
+    			templateProcessor.setTemplate("view_movie.ftl");
+    			templateProcessor.processTemplate(response);
+    		} // if
+    	} // for
+    } // checkForMovieInquiry
     
     /**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -98,6 +118,8 @@ public class ReviewServlet extends HttpServlet {
 		} // else if
 		else if (request.getParameter("addNewMovie") != null) runAddNewMovie(request, response);
 		else if (request.getParameter("searchGenre") != null) runViewMoviesFromGenres(request, response);
+		else if (request.getParameter("home") !=  null) response.sendRedirect("index.html");
+		else checkForMovieInquiry(request, response);
 	} // doGet
 
 	/**

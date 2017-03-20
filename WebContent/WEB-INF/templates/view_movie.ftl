@@ -18,20 +18,14 @@
                     <input type=text name=searchForMovie placeholder="Movie title" />
                     <input type=submit name=searchForMovie value = "Search" />
                 </form>
-				<h1>Viewing: ${category}</h1>
+				<h1>Viewing: "${movie.name}"</h1>
 				<hr>
 			</div>  
-			<div id = content>        
-				<form action="ReviewServlet" method="post">					  
-		            <table>
-		            	<tbody>
-		           		<#list movies as movies>
-		        			<tr><td><input type=submit name="${movies.id}" value="${movies.name}" /></td></tr>  				
-		           		</#list>
-		           		</tbody>
-		           	</table>
-		     	</form>
-           	</div>
+			<div id = content>
+				Rating: ${movie.rank} <br/>
+				Release Year: ${movie.year} <br/>
+				Genre: ${movie.genre} <br/>
+		   	</div>
         </body>
         
     </html>

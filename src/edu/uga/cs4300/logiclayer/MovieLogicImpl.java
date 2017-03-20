@@ -21,12 +21,14 @@ public class MovieLogicImpl {
 	 * Insert a user into the movies table based on user input.
 	 * @param request is the current request of the servlet.
 	 */
-	public void insertMovie(HttpServletRequest request) {
+	public boolean insertMovie(HttpServletRequest request) {
+		if (request.getParameter("title").equals("") || request.getParameter("year").equals("") || request.getParameter("rank").equals("") || request.getParameter("genre").equals("")) return false;
 		String title = request.getParameter("title");
 		int year = Integer.parseInt(request.getParameter("year"));
 		float rank = Float.parseFloat(request.getParameter("rank"));
 		String genre = request.getParameter("genre");
 		moviePersistence.insertMovie(title, year, rank, genre);
+		return true;
 	} // insertMovie
 	
 	/**

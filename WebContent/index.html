@@ -3,7 +3,7 @@
         
         <head>
             <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
-            <link href="/WEB-INF/css/style.css" type="text/css" rel=stylesheet />
+            <link href="css/index.css" type="text/css" rel=stylesheet />
             <title>Review Hub</title>
         </head>
         
@@ -11,7 +11,8 @@
             <div id=wrapper>
                 <div id=header>
                     <form action="ReviewServlet" method=post>
-                        <input type=submit name=viewAll value="View All"/><!--
+                    	<input type=submit name=home value="Home" /><!--
+                        --><input type=submit name=viewAll value="View All"/><!--
                         --><input type=submit name=viewGenre value="View All In Genre"/><!--  
                         --><input type=submit name=newMovie value="Submit A New Movie"/>
                         <input type=text name=searchForMovie placeholder="Movie title" />
@@ -26,19 +27,16 @@
                     <p class=center>Feeling a movie night? <br/><br/>
                         Find the movie for your tastes.</p>
                         <div id=images>
-                            <img width=200px height= 300px src="./WEB-INF/resources/memento.jpg" />
-                            <img width=300px height= 300px src="./WEB-INF/resources/fightclub.jpg" />
-                            <img width=200px height= 300px src="./WEB-INF/resources/rocky.jpg" />
+                            <img width=200px height= 300px src="./resources/memento.jpg" />
+                            <img width=300px height= 300px src="./resources/fightclub.jpg" />
+                            <img width=200px height= 300px src="./resources/rocky.jpg" />
                         </div>
                         <p class = center>
                         Read a review. <br/><br/>
                         Write a review.</p>
-                
                     <hr>
                     <div id = copyright>Copyright &copy; ReviewHubCo.</div>
                 </div>
-                    
-            
             </div>
         </body>
         
