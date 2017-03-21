@@ -115,7 +115,30 @@ public class MoviePersistImpl {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} // try-catch
+		DbAccessImpl.disconnect(con);
 		return movie;
+	} // getMovie
+	
+	/**
+	 * @param title of the movie to be found
+	 * @return a list of movies whose name contains a substring of the provided title.
+	 */
+	public ArrayList<Movie> getMovie(String title) {
+		Connection con = DbAccessImpl.connect();
+		ArrayList<Movie> movies = new ArrayList<Movie>();
+		ResultSet result = DbAccessImpl.retrieve("SELECT * FROM MOVIES WHERE NAME LIKE '%" + title + "%'", con);
+		try {
+			while (result.next()) {
+				Movie movie = new Movie(result.getInt(1),result.getString(2),result.getInt(3),result.getFloat(4), "genre not defined");
+				StringBuilder movieGenre = getGenresOfMovie(result.getInt(1), con);
+				if (!movieGenre.toString().equals("")) movie.setGenre(movieGenre.toString());
+				movies.add(movie);				
+			} // while
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} // try-catch
+		DbAccessImpl.disconnect(con);
+		return movies;
 	} // getMovie
 	
 	/**

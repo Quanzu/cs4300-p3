@@ -28,6 +28,11 @@
 				Release Year: ${movie.year} <br/>
 				Genre: ${movie.genre} <br/>
 				</p>
+				
+				<form class=center action="ReviewServlet" method=post>
+					<input type=submit name="editMovie" value="Edit Movie" />
+				</form>
+				
 				<hr>
 				<div id=reviews>
 					<h2>Reviews</h2>

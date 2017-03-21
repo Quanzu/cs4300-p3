@@ -16,7 +16,7 @@
                     --><input type=submit name=viewGenre value="View All In Genre"/><!--  
                     --><input type=submit name=newMovie value="Submit A New Movie"/>
                     <input type=text name=searchForTitle placeholder="Movie title" />
-                    <input type=submit name=searchForTitles value = "Search" />
+                    <input type=submit name=search value = "Search" />
                 </form>
 				<h1>Viewing: ${category}</h1>
 				<hr>

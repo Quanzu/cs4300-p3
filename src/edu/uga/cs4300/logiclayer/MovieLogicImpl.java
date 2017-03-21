@@ -57,4 +57,8 @@ public class MovieLogicImpl {
 		return moviePersistence.getMovie(id);
 	} // getMovie
 	
+	public ArrayList<Movie> getMovie(String title) {
+		return moviePersistence.getMovie(title);
+	} // getMovie
+	
 } // MovieLogicImpl

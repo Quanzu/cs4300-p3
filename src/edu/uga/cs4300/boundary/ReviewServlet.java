@@ -138,6 +138,19 @@ public class ReviewServlet extends HttpServlet {
     	} // for
     } // checkForMovieInquiry
     
+    public void runTitleSearch(HttpServletRequest request, HttpServletResponse response) {
+    	 MovieLogicImpl movieLogic = new MovieLogicImpl();
+    	 ArrayList<Movie> movies = movieLogic.getMovie(request.getParameter("searchForTitle"));
+     	templateProcessor.addToRoot("movies", movies);
+     	templateProcessor.addToRoot("category", "Movies matching title \"" + request.getParameter("searchForTitle") + "\"");
+     	templateProcessor.setTemplate("view.ftl");
+     	templateProcessor.processTemplate(response);    	 
+    } // runTitleSearch
+    
+    public void runEditMovie(HttpServletRequest request, HttpServletResponse response) {
+    	
+    } // runEditMovie
+    
     /**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -149,7 +162,8 @@ public class ReviewServlet extends HttpServlet {
 		else if (request.getParameter("home") !=  null) response.sendRedirect("index.html");
 		else if (request.getParameter("newReview") != null) runAddNewReview(request, response);
 		else if (request.getParameter("newMovie") != null) runNewMovie(response);
-		else if (request.getParameter("search") != null) runTitleSearch() // TO DO
+		else if (request.getParameter("search") != null) runTitleSearch(request, response); 
+		else if (request.getParameter("editMovie") != null) runEditMovie(request, response);
 		else checkForMovieInquiry(request, response);
 	} // doGet
 
