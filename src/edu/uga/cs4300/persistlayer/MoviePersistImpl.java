@@ -55,7 +55,6 @@ public class MoviePersistImpl {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} // try-catch
-		System.out.println(genre);
 		DbAccessImpl.create("INSERT INTO MOVIES_GENRES (movie_id, genre) VALUES (" + id + ", '" + genre + "')", con);
 		DbAccessImpl.disconnect(con);
 	} // insertMovie
@@ -103,6 +102,21 @@ public class MoviePersistImpl {
 		DbAccessImpl.disconnect(con);
 		return movies;
 	} // getMoviesFromGenre
+	
+	public Movie getMovie(int id) {
+		Connection con = DbAccessImpl.connect();
+		ResultSet result = DbAccessImpl.retrieve("SELECT * FROM MOVIES WHERE ID = " + id, con);
+		Movie movie = null;
+		try {
+			result.first();
+			movie = new Movie(result.getInt(1),result.getString(2),result.getInt(3),result.getFloat(4), "genre not defined");
+			StringBuilder movieGenre = getGenresOfMovie(result.getInt(1), con);
+			movie.setGenre(movieGenre.toString());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} // try-catch
+		return movie;
+	} // getMovie
 	
 	/**
 	 * @return a list of genres that have so-far been used to classify movies.

@@ -53,4 +53,8 @@ public class MovieLogicImpl {
 		return moviePersistence.getGenreList();
 	} // getGenreList
 	
+	public Movie getMovie(int id) {
+		return moviePersistence.getMovie(id);
+	} // getMovie
+	
 } // MovieLogicImpl

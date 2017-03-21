@@ -1,9 +1,3 @@
-html {
-	background: radial-gradient(black, white); 
-    font: 10pt 'Oswald', sans-serif;
-    min-width: 1000px;
-}
-
 #header {
     opacity: .9;
     width: 50%;
@@ -21,11 +15,13 @@ html {
     opacity: .9;
 }
 
-#content p {
-    padding-left: 20px;
-    padding-right: 20px;
+#content h2 {
     opacity: 1;
     font-size: 50px;
+}
+
+#content p {
+    font-size: 25px;
 }
 
 #content table {
@@ -46,23 +42,22 @@ html {
     width: 75%
 }
 
+#reviews table {
+	margin-left: 0%;
+}
+
+#reviews textarea {
+	resize: none;
+}
+
 #copyright {
     text-align: right;
-    padding-right: 20px;
 }
 
 #images {
     opacity: 1;
     display: flex;
     justify-content: center;   
-}
-
-img {
-    border: groove;
-}
-
-.center {
-    text-align: center;
 }
 
 #header form {
@@ -73,6 +68,34 @@ img {
     margin-right: 0;
 }
 
+
+.padding {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.center {
+    text-align: center;
+}
+
+.green {
+	color: green;
+}
+
+.red {
+	color: red;
+}
+
+html {
+	background: radial-gradient(black, white); 
+    font: 10pt 'Oswald', sans-serif;
+    min-width: 1000px;
+}
+
 h1 {
     font-size: 40px;
+}
+
+img {
+    border: groove;
 }

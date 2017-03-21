@@ -6,14 +6,14 @@ package edu.uga.cs4300.objectlayer;
  */
 
 public class Review {
+	private int id = -1;
 	private int movieId = -1;
 	private String content = null;
-	private String author = null;
 	
-	public Review(int movieId, String content, String author) {
+	public Review(int id, int movieId, String content) {
+		this.id = id;
 		this.movieId = movieId;
 		this.content = content;
-		this.author = author;
 	} // Review
 
 	/**
@@ -47,17 +47,17 @@ public class Review {
 	} // setContent
 
 	/**
-	 * @return the author of the review
+	 * @return the id of the review, given when persisted into the database.
 	 */
-	public String getAuthor() {
-		return author;
-	} // getAuthor
+	public int getId() {
+		return id;
+	} // getId
 
 	/**
-	 * @param author is not validated in this function, but should not equal null. 
+	 * @param id should not be set to any value other than the value given to it when persisted into the database.
 	 */
-	public void setAuthor(String author) {
-		this.author = author;
-	} // setAuthor
+	public void setId(int id) {
+		this.id = id;
+	} // setId
 	
 } // Review

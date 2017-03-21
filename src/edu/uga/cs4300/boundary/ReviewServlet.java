@@ -2,9 +2,11 @@ package edu.uga.cs4300.boundary;
 
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.uga.cs4300.logiclayer.MovieLogicImpl;
+import edu.uga.cs4300.logiclayer.ReviewLogicImpl;
 import edu.uga.cs4300.objectlayer.Movie;
+import edu.uga.cs4300.objectlayer.Review;
 import freemarker.template.Configuration;
 
 /**
@@ -49,7 +53,7 @@ public class ReviewServlet extends HttpServlet {
     public void runViewMoviesFromGenres(HttpServletRequest request, HttpServletResponse response) {
       	MovieLogicImpl movieLogic = new MovieLogicImpl();
       	ArrayList<String> genres = movieLogic.getGenreList();
-      	HashSet<Movie> movieSet = new HashSet<Movie>();
+      	HashSet<Movie> movieSet = new HashSet<Movie>(); // Using a set of movies so that all elements are unique. Protects against duplicates in DB.
       	StringBuilder header = new StringBuilder("");
       	// Search through set of genres, see if they were selected. Then add movies of genre to root.
       	for (String genre : genres) {
@@ -88,17 +92,45 @@ public class ReviewServlet extends HttpServlet {
     
     public void runAddNewMovie(HttpServletRequest request, HttpServletResponse response) {
     	MovieLogicImpl movieLogic = new MovieLogicImpl();
-    	String success = movieLogic.insertMovie(request) ? "Movie was successfully added!" : "Sorry, movie was not added due to bad form submission. Please try again.";
+    	String success = movieLogic.insertMovie(request) ? "Movie was successfully added!" : "Sorry, movie was not added due to empty form submission. Please try again.";
     	templateProcessor.addToRoot("success", success);
     	runNewMovie(response);
     } // addNewMovie
+     
+    public void runAddNewReview(HttpServletRequest request, HttpServletResponse response) {
+    	ReviewLogicImpl reviewLogic = new ReviewLogicImpl();
+    	MovieLogicImpl movieLogic = new MovieLogicImpl();
+    	String success = reviewLogic.insertReview(request) ? "Review was successfully added!" : "Sorry, review was not added due to empty form submission. Please try again.";
+    	Integer movie_id = null;
+    	
+    	// Parse int b/c the DB formats ID with apostrophes (i.e. 1,000 when we need 1000)
+    	try {
+			movie_id = NumberFormat.getNumberInstance(Locale.US).parse(request.getParameter("movieId")).intValue();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} // try-catch
+    	
+    	// Run template
+    	Movie movie = movieLogic.getMovie(movie_id.intValue());
+    	ArrayList<Review> reviews = reviewLogic.getReviews(movie_id.intValue());
+    	templateProcessor.addToRoot("movie", movie);
+    	templateProcessor.addToRoot("success", success);
+    	templateProcessor.addToRoot("reviews", reviews);
+    	templateProcessor.setTemplate("view_movie.ftl");
+    	templateProcessor.processTemplate(response);
+    } // runAddNewReview
     
     private void checkForMovieInquiry(HttpServletRequest request, HttpServletResponse response) {    	
     	MovieLogicImpl movieLogic = new MovieLogicImpl();
     	ArrayList<Movie> movies = movieLogic.getAllMovies();
+    	ArrayList<Review> reviews = new ArrayList<Review>();
+    	ReviewLogicImpl reviewLogic = new ReviewLogicImpl();
     	for (Movie m : movies) {
-    		String id = NumberFormat.getIntegerInstance().format(m.getId());
-    		if (request.getParameter(id) != null) {
+    		String db_id = NumberFormat.getIntegerInstance().format(m.getId()); // ID of movie as formatted in DB
+    		Integer plain_id = m.getId(); // ID in standard in form; needed for SQL query.
+    		if (request.getParameter(db_id) != null) {
+    			reviews = reviewLogic.getReviews(plain_id.intValue());
+				if (reviews.size() > 0) templateProcessor.addToRoot("reviews", reviews);
     			templateProcessor.addToRoot("movie", m);
     			templateProcessor.setTemplate("view_movie.ftl");
     			templateProcessor.processTemplate(response);
@@ -112,13 +144,12 @@ public class ReviewServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getParameter("viewAll") != null) runViewAll(response);
 		else if (request.getParameter("viewGenre") != null) runViewGenres(response);
-		else if (request.getParameter("newMovie") != null) {
-			templateProcessor.addToRoot("success", "");
-			runNewMovie(response);
-		} // else if
 		else if (request.getParameter("addNewMovie") != null) runAddNewMovie(request, response);
 		else if (request.getParameter("searchGenre") != null) runViewMoviesFromGenres(request, response);
 		else if (request.getParameter("home") !=  null) response.sendRedirect("index.html");
+		else if (request.getParameter("newReview") != null) runAddNewReview(request, response);
+		else if (request.getParameter("newMovie") != null) runNewMovie(response);
+		else if (request.getParameter("search") != null) runTitleSearch() // TO DO
 		else checkForMovieInquiry(request, response);
 	} // doGet
 

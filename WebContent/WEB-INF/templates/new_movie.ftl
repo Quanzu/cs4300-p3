@@ -15,15 +15,21 @@
                     --><input type=submit name=viewAll value="View All"/><!--
                     --><input type=submit name=viewGenre value="View All In Genre"/><!--  
                     --><input type=submit name=newMovie value="Submit A New Movie"/>
-                    <input type=text name=searchForMovie placeholder="Movie title" />
-                    <input type=submit name=searchForMovie value = "Search" />
+                    <input type=text name=searchForTitle placeholder="Movie title" />
+                    <input type=submit name=search value = "Search" />
                 </form>
                 <h1>The Review Hub</h1>
                 <hr>
             </div>
             <div id=content>
             
-            <p class=center> ${success} </p>
+            <#if success??>
+            	<#if success == "Movie was successfully added!">
+            		<p class="center green">${success}</p>
+            	<#else>
+            		<p class="center red">${success}</p>
+            	</#if>
+            </#if>
             <form action="ReviewServlet" method = post>
                 <table>
                     <tbody>
