@@ -35,7 +35,7 @@
                 <table>
                     <tbody>
                         <tr><td>Title:</td><td><input type="text" name="title" value="${movie.name}" /></td></tr>            		
-                        <tr><td>Year:</td><td><input type="number" name="year" min=0 value="${movie.year}"/></td></tr>
+                        <tr><td>Year:</td><td><input type="number" name="year" min=0 value="${movie.year}" /></td></tr>
                         <tr><td>Rank:</td><td><input type="number" name="rank" min=0 max=10 step=.1 value="${movie.rank}"/></td></tr>
                         <tr><td>Genre:</td><td><input type="text" name="genre" value="${movie.genre}" /></td></tr>
                         <tr><td></td><td><input type=submit name="updateMovie" value="Update Movie" /></td></tr>

@@ -103,6 +103,10 @@ public class MoviePersistImpl {
 		return movies;
 	} // getMoviesFromGenre
 	
+	/**
+	 * @param id of the movie to be retrieved
+	 * @return a movie object that contains data retrieved from the database.
+	 */
 	public Movie getMovie(int id) {
 		Connection con = DbAccessImpl.connect();
 		ResultSet result = DbAccessImpl.retrieve("SELECT * FROM MOVIES WHERE ID = " + id, con);
@@ -111,7 +115,7 @@ public class MoviePersistImpl {
 			result.first();
 			movie = new Movie(result.getInt(1),result.getString(2),result.getInt(3),result.getFloat(4), "genre not defined");
 			StringBuilder movieGenre = getGenresOfMovie(result.getInt(1), con);
-			movie.setGenre(movieGenre.toString());
+			if (!movieGenre.toString().equals("")) movie.setGenre(movieGenre.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} // try-catch
@@ -159,5 +163,41 @@ public class MoviePersistImpl {
 		DbAccessImpl.disconnect(con);
 		return genres;
 	} // getGenreFromMovies
+	
+	/**
+	 * Updates the movie according to the provided parameters.
+	 * @param id of the movie to be edited.
+	 * @param title is the new title of the movie
+	 * @param year is the new year the movie was released
+	 * @param rank is the new rank of the movie
+	 * @param genre is the new genre of the movie
+	 */
+	public void updateMovie(int id, String title, int year, float rank, String genre) {
+		Connection con = DbAccessImpl.connect();
+		DbAccessImpl.update("UPDATE movies SET name = '" + title + "', year = "+ year + ", rank = " + rank + " WHERE id = " + id  , con);
+		ResultSet result = DbAccessImpl.retrieve("SELECT genre FROM MOVIES_GENRES WHERE MOVIE_ID = " + id, con);
+		HashSet<String> genres = new HashSet<String>(); // Future feature: Parse genre string, update rows in movies_genres whose genre is not in genre string
+		try {
+			while (result.next()) {
+				genres.add(result.getString(1));
+			} // while
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} // try-catch
+		if (genres.isEmpty()) DbAccessImpl.create("INSERT INTO MOVIES_GENRES (movie_id, genre) VALUES (" + id + ", '" + genre + "')", con);
+		else DbAccessImpl.update("UPDATE MOVIES_GENRES SET GENRE = '" + genre + "' WHERE MOVIE_ID = " + id, con);
+		DbAccessImpl.disconnect(con);
+	} // editMovie
+	
+	/**
+	 * Deletes a movie based on a given id.
+	 * @param movie_id is the id of the movie to be deleted.
+	 */
+	public void deleteMovie(int movie_id) {
+		Connection con = DbAccessImpl.connect();
+		DbAccessImpl.delete("DELETE FROM MOVIES WHERE ID = " + movie_id, con);
+		DbAccessImpl.delete("DELETE FROM MOVIES_GENRES WHERE MOVIE_ID = " + movie_id, con);
+		DbAccessImpl.disconnect(con);
+	} // deleteMovie
 	
 } // MoviePersistImpl

@@ -11,7 +11,6 @@ public class Movie {
 	private int year = -1;
 	private float rank = -1;
 	private String genre = null;
-	private static final double FLOAT_PRECISION = 1;
 	
 	public Movie(int id, String name, int year, float rank, String genre) {
 		this.id = id;

@@ -7,6 +7,12 @@ import java.util.ArrayList;
 
 import edu.uga.cs4300.objectlayer.Review;
 
+/**
+ * This class represents the persist layer for interacting with reviews in the database.
+ * @author dustin
+ *
+ */
+
 public class ReviewPersistImpl {
 
 	/**
@@ -39,5 +45,30 @@ public class ReviewPersistImpl {
 		DbAccessImpl.disconnect(con);
 		return reviews;
 	} // getReviews
+	
+	/**
+	 * Delete a selection of reviews 
+	 * @param reviewId contains the IDs of the reviews to be deleted.
+	 */
+	public void deleteReview(ArrayList<Integer> reviewId) {
+		Connection con = DbAccessImpl.connect();
+		StringBuilder deleteSql = new StringBuilder("DELETE FROM REVIEWS WHERE ID = ");
+		for (int i = 0; i < reviewId.size(); i++) {
+			if (i == 0) deleteSql.append(reviewId.get(i).toString());
+			else deleteSql.append(" OR ID = " + reviewId.get(i).toString());
+		} // for
+		DbAccessImpl.delete(deleteSql.toString(), con);
+		DbAccessImpl.disconnect(con);
+	} // deleteReview
+	
+	/**
+	 * Delete all reviews associated with a movie.
+	 * @param movie_id is the id of the movie whose reviews will be deleted.
+	 */
+	public void deleteAllReviews(int movie_id) {
+		Connection con = DbAccessImpl.connect();
+		DbAccessImpl.delete("DELETE FROM REVIEWS WHERE MOVIE_ID = " + movie_id, con);
+		DbAccessImpl.disconnect(con);
+	} // deleteAllReviews
 	
 } // ReviewPersistImpl

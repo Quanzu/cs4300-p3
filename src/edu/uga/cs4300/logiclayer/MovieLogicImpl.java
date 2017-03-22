@@ -1,10 +1,7 @@
 package edu.uga.cs4300.logiclayer;
 
 import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
-
-import edu.uga.cs4300.boundary.ReviewServlet;
 import edu.uga.cs4300.objectlayer.Movie;
 import edu.uga.cs4300.persistlayer.MoviePersistImpl;
 
@@ -53,12 +50,44 @@ public class MovieLogicImpl {
 		return moviePersistence.getGenreList();
 	} // getGenreList
 	
+	/**
+	 * @param id is the id of the movie to retrieve
+	 * @return a movie object representing the data retrieved from the database.
+	 */
 	public Movie getMovie(int id) {
 		return moviePersistence.getMovie(id);
 	} // getMovie
 	
+	/**
+	 * @param title to be considered for selection
+	 * @return a list of movies that contain the title as a substring.
+	 */
 	public ArrayList<Movie> getMovie(String title) {
 		return moviePersistence.getMovie(title);
 	} // getMovie
+	
+	/**
+	 * @param request
+	 * @return true if worked, false otherwise
+	 */
+	public boolean updateMovie(HttpServletRequest request) {
+		if (request.getParameter("title").equals("") || request.getParameter("year").equals("") || request.getParameter("rank").equals("") || request.getParameter("genre").equals("")) return false;
+		String title = request.getParameter("title");
+		int year = Integer.parseInt(request.getParameter("year"));
+		float rank = Float.parseFloat(request.getParameter("rank"));
+		String genre = request.getParameter("genre");
+		int id = Integer.parseInt(request.getParameter("movieId"));
+		moviePersistence.updateMovie(id, title, year, rank, genre);
+		return true;
+	} // editMovie
+	
+	/**
+	 * Delete a movie via its ID.
+	 * @param request
+	 */
+	public void deleteMovie (HttpServletRequest request) {
+		int id = Integer.parseInt(request.getParameter("movieId"));
+		moviePersistence.deleteMovie(id);
+	} // deleteMovie
 	
 } // MovieLogicImpl
